@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <header>
@@ -5,22 +7,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
+    <!-- Google Fonts
+        font-family: 'Fredericka the Great',cursive; 'Jua', sans-serif; 'Lexend', sans-serif; 'Nanum Gothic', sans-serif;
+    -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Jua&family=Lexend:wght@400;500&family=Nanum+Gothic&display=swap"
+        rel="stylesheet">
+
     <!-- Bootstrap5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </header>
 <body>
     <div class="container">
+        <!-- <img src="{% static 'images/naver_icon.png' %}"> -->
         <!-- TOP -->
         <div class="row">
             <div class="col">
-                <input type="text">
+                <div id="google-wrap">
+                    <p class="google-cover">구글 검색하기</p>
+                    <input type="text" class="google-input text-input">
+                    <!-- <select style="width:200px;">
+                        <option title="{% static 'images/naver_icon.png' %}" value="naver">Naver</option>
+                        <option value="google"><link rel="SHORTCUT ICON" href="{% static 'images/google_icon.png' %}"/>Google</option>
+                    </select> -->
+                </div>
             </div>
             <div class="col">
-                <p class="text-end">내 정보</p>
+                <p class="text-end jua-font">내 정보</p>
             </div>
         </div>
     
@@ -28,12 +48,13 @@
     
         <!-- Contents -->
         <div class="text-center">
-            <h1>SASOHAN</h1>
-            <p>블라블라블라블라</p>
+            <h1 class="title">SASOHAN.COM</h1>
+            <p class="jua-font">사소하고 소소한 일상을 기록하다.</p>
             <h3>21:26 Cloudy</h3>
-            <br><form>
-                <input type="text">
-                <input type="submit" value="제출">
+            <br>
+            <form>
+                <input type="text" class="text-input" >
+                <input type="submit" value="검색">
             </form>
         </div>
             
@@ -45,8 +66,6 @@
             </div>
         </footer>
     </div>
-
-
 
 </body>
 

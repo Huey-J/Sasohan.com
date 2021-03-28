@@ -1,0 +1,52 @@
+/* Basic css */
+/* font-family: 'Fredericka the Great',cursive; 'Jua', sans-serif; 'Lexend', sans-serif; 'Nanum Gothic', sans-serif; */
+html, body {
+    font-family: 'Nanum Gothic', sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    padding-top: 15px;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+/* input, button */
+.text-input {
+    border: none;
+    border-bottom: 1px solid lightgrey;
+}
+
+
+/* for Homepage */
+.title {
+    font-family: 'Fredericka the Great',cursive;
+}
+
+.jua-font {
+    font-family: 'Jua', sans-serif;
+}
+
+.google-input {
+    opacity: 0;
+    transition: 0.5s all;
+    font-size: 20px;
+}
+.google-cover {
+    transition: 0.5s all;
+    position: absolute;
+    font-family: 'Jua', sans-serif;
+    font-size: 20px;
+}
+#google-wrap:hover .google-input {
+    opacity:1
+}
+#google-wrap:hover .google-cover {
+    opacity: 0
+}
