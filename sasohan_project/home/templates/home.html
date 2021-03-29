@@ -7,13 +7,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
-    <!-- Google Fonts
-        font-family: 'Fredericka the Great',cursive; 'Jua', sans-serif; 'Lexend', sans-serif; 'Nanum Gothic', sans-serif;
-    -->
+    <!-- Google Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Jua&family=Lexend:wght@400;500&family=Nanum+Gothic&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Jua&family=Lexend:wght@400;500&family=Nanum+Gothic&display=swap">
+
 
     <!-- Bootstrap5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -22,35 +20,43 @@
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/main.js' %}"></script>
 </header>
+
 <body>
     <div class="container">
-        <!-- <img src="{% static 'images/naver_icon.png' %}"> -->
+        
         <!-- TOP -->
         <div class="row">
             <div class="col">
                 <div id="google-wrap">
-                    <p class="google-cover">구글 검색하기</p>
-                    <input type="text" class="google-input text-input">
-                    <!-- <select style="width:200px;">
-                        <option title="{% static 'images/naver_icon.png' %}" value="naver">Naver</option>
-                        <option value="google"><link rel="SHORTCUT ICON" href="{% static 'images/google_icon.png' %}"/>Google</option>
-                    </select> -->
+                    <p class="google-cover">
+                        <img width='30px' style="margin-bottom: 5px;" src="{% static 'images/google_icon.png' %}">구글 검색하기
+                    </p>
+                    <input type="text" class="google-input text-input" id="google-text" maxlength=255 autocomplete="off"
+                        onkeyup="if(window.event.keyCode==13){GoogleSearch()}">
+                    <!-- <img onclick="GoogleSearch()" style="cursor:pointer; position:fixed;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAABiUlEQVRIie2Wu04CQRSGP0G2EUtIbHwA8B3EQisLIcorEInx8hbEZ9DKy6toDI1oAgalNFpDoYWuxZzJjoTbmSXERP7kZDbZ859vdmb27MJcf0gBUAaugRbQk2gBV3IvmDa0BLwA4Zh4BorTACaAU6fwPXAI5IAliTxwBDScvJp4vWWhH0BlTLEEsC+5Fu6lkgNdV/gKDnxHCw2I9rSiNQNV8baBlMZYJtpTn71KAg9SY3dUYn9xezLPgG8P8BdwLteq5X7CzDbnAbXKS42WxtQVUzoGeFlqdEclxXrnhmhhkqR+8KuMqzHA1vumAddl3IwB3pLxVmOyr1NjwKQmURJ4lBp7GmOAafghpg1qdSDeDrCoNReJWmZB4dsAPsW7rYVa1Rx4FbOEw5TEPKmFvgMZX3DCgYeYNniMaQ5piTXghGhPLdTmZ33hYNpem98f/UHRwSxvhqhXx4anMA3/EmhiOlJPJnSBOb3uQcpOE65VhujPpAms/Bu4u+x3swRbeB24mTV4LgB+AFuLedkPkcmmAAAAAElFTkSuQmCC"/> -->
                 </div>
             </div>
             <div class="col">
-                <p class="text-end jua-font">내 정보</p>
+                <p class="text-end jua-font" style="font-size: 20px;">내 정보</p>
             </div>
         </div>
     
         <br><br><br>
     
         <!-- Contents -->
-        <div class="text-center">
+        <div class="position-absolute top-50 start-50 translate-middle text-center">
             <h1 class="title">SASOHAN.COM</h1>
             <p class="jua-font">사소하고 소소한 일상을 기록하다.</p>
-            <h3>21:26 Cloudy</h3>
+            <div class="row" style="margin: 15px 0px">
+                <div class="col" id="clock"></div>
+                <div class="col" id="weather"></div>
+            </div>
             <br>
             <form>
                 <input type="text" class="text-input" >
@@ -66,6 +72,64 @@
             </div>
         </footer>
     </div>
+    <script>
+        // 시계 함수
+        function clock() {
+            var date = new Date();
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+
+            document.getElementById("clock").innerHTML =
+                `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+        }
+        function clockInit() {
+            clock();
+            setInterval(clock, 1000); // 매초마다 실행을 해줍니다.
+        }
+
+        // 날씨 함수
+        function getWeather(lat, lon) {
+            let weatherIcon = {
+                '01' : 'fas fa-sun',
+                '02' : 'fas fa-cloud-sun',
+                '03' : 'fas fa-cloud',
+                '04' : 'fas fa-cloud-meatball',
+                '09' : 'fas fa-clod-sun-rain',
+                '10' : 'fas fa-cloud-showers-heavy',
+                '11' : 'fas fa-poo-storm',
+                '13' : 'fas fa-snowflake',
+                '50' : 'fas fa-smog',
+            }
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=96c79cd2523ae35399c1d6f3e96c599b&units=metric`)
+                .then(res => res.json())
+                .then(data => {
+                    const icon =  (data.weather[0].icon).substr(0,2);
+                    const temperature = Math.floor(data.main.temp) + '°C';
+                    const city = data.name;
+                    
+                    document.getElementById("weather").innerHTML = '<i class="' + weatherIcon[icon] + '"></i> ' + temperature
+                        + '<br><p class="jua-font" style="font-size:15px">'+ city + '</p>';
+                })
+        }
+
+        // 위치정보 함수
+        function handleGeoSucc(position) {
+            const latitude = position.coords.latitude;  // 경도  
+            const longitude = position.coords.longitude;  // 위도
+            getWeather(latitude, longitude);
+        }
+        function handleGeoErr(err) {
+            console.log("geo err! " + err);
+            getWeather(37.5665, 126.9780);  // 서울 기준으로 호출
+        }
+        // 위치정보 요청
+        function requestCoords() {
+            navigator.geolocation.getCurrentPosition(handleGeoSucc, handleGeoErr);
+        }
+
+        clockInit();
+        requestCoords();
+    </script>
 
 </body>
 

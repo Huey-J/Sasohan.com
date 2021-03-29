@@ -1,6 +1,6 @@
 /* Basic css */
 /* font-family: 'Fredericka the Great',cursive; 'Jua', sans-serif; 'Lexend', sans-serif; 'Nanum Gothic', sans-serif; */
-html, body {
+html, body, p {
     font-family: 'Nanum Gothic', sans-serif;
     margin: 0px;
     padding: 0px;
@@ -27,16 +27,35 @@ footer {
 /* for Homepage */
 .title {
     font-family: 'Fredericka the Great',cursive;
+    font-size: calc(2.5rem + 1.5vw);
+    
+    /* Rainbow font */
+    /* background-image: linear-gradient(90deg, red, orange, yellow, green, blue, navy, purple); */
+    /* -webkit-background-clip: text; */
+    /* color: transparent; */
 }
 
 .jua-font {
     font-family: 'Jua', sans-serif;
 }
 
+#clock {
+    font-size: calc(2rem + 1.5vw);
+    margin: 0px;
+}
+
+#weather {
+    font-size: calc(1rem + 1.5vw);
+    margin: 0px;
+    padding: auto;
+}
+
 .google-input {
     opacity: 0;
     transition: 0.5s all;
     font-size: 20px;
+    width: 100%;
+    max-width: 230px;
 }
 .google-cover {
     transition: 0.5s all;
