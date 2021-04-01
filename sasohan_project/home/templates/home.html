@@ -25,22 +25,35 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/main.js' %}"></script>
+
+    <style>
+        #bg {
+            background-image: url("{% static 'images/notebook.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            z-index: -10;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
 </header>
 
 <body>
     <div class="container">
+        <span id="bg"></span>
         
         <!-- TOP -->
-        <div class="row">
+        <div class="row home-nav">
             <div class="col">
-                <div id="google-wrap">
-                    <p class="google-cover">
-                        <img width='30px' style="margin-bottom: 5px;" src="{% static 'images/google_icon.png' %}">구글 검색하기
-                    </p>
+                <span id="google-wrap">
+                    <p class="google-cover"><img width='30px' style="vertical-align: bottom;" src="{% static 'images/google_icon.png' %}">구글 검색하기</p>
                     <input type="text" class="google-input text-input" id="google-text" maxlength=255 autocomplete="off"
                         onkeyup="if(window.event.keyCode==13){GoogleSearch()}" placeholder="검색어 작성후 엔터">
-                    <!-- <img onclick="GoogleSearch()" style="cursor:pointer; position:fixed;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAABiUlEQVRIie2Wu04CQRSGP0G2EUtIbHwA8B3EQisLIcorEInx8hbEZ9DKy6toDI1oAgalNFpDoYWuxZzJjoTbmSXERP7kZDbZ859vdmb27MJcf0gBUAaugRbQk2gBV3IvmDa0BLwA4Zh4BorTACaAU6fwPXAI5IAliTxwBDScvJp4vWWhH0BlTLEEsC+5Fu6lkgNdV/gKDnxHCw2I9rSiNQNV8baBlMZYJtpTn71KAg9SY3dUYn9xezLPgG8P8BdwLteq5X7CzDbnAbXKS42WxtQVUzoGeFlqdEclxXrnhmhhkqR+8KuMqzHA1vumAddl3IwB3pLxVmOyr1NjwKQmURJ4lBp7GmOAafghpg1qdSDeDrCoNReJWmZB4dsAPsW7rYVa1Rx4FbOEw5TEPKmFvgMZX3DCgYeYNniMaQ5piTXghGhPLdTmZ33hYNpem98f/UHRwSxvhqhXx4anMA3/EmhiOlJPJnSBOb3uQcpOE65VhujPpAms/Bu4u+x3swRbeB24mTV4LgB+AFuLedkPkcmmAAAAAElFTkSuQmCC"/> -->
-                </div>
+                </span>
             </div>
             <div class="col">
                 <p class="text-end jua-font" style="font-size: 20px;">내 정보</p>
@@ -65,7 +78,7 @@
         </div>
 
         <!-- Footer -->
-        <footer class="py-3 bg-light">
+        <footer class="py-3">
             <div class="text-center">
                 <span class="text-muted">Copyright HyunCompany 2020</span>
             </div>

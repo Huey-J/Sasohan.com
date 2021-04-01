@@ -46,6 +46,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+input:focus { outline: none; }
 
 
 /* Basic css */
@@ -69,8 +70,12 @@ footer {
 .text-input {
     border: none;
     border-bottom: 1px solid lightgrey;
+    background: none;
 }
 
+.jua-font {
+    font-family: 'Jua', sans-serif;
+}
 
 /* for Homepage */
 .title {
@@ -83,8 +88,8 @@ footer {
     /* color: transparent; */
 }
 
-.jua-font {
-    font-family: 'Jua', sans-serif;
+.home-nav {
+    color: whitesmoke;
 }
 
 #clock {
@@ -104,6 +109,7 @@ footer {
     font-size: 20px;
     width: 100%;
     max-width: 230px;
+    color: whitesmoke;
 }
 .google-cover {
     transition: 0.5s all;
