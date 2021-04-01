@@ -45,7 +45,7 @@ ROOT_URLCONF = 'sasohan.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['sasohan/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

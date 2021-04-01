@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block contents %}
+
+<body>
+    <h1>로그인</h1>
+    <form method="POST" action="{%url 'login' %}">
+        {% csrf_token %}
+        <h4>아이디</h4>
+        <input name="username" type="text">
+
+        <h4>비밀번호</h4>
+        <input name="password" type="password">
+
+        <input type="submit">
+    </form>
+</body>
+
+{% endblock %}
