@@ -2,17 +2,26 @@
 {% block contents %}
 
 <body>
-    <h1>로그인</h1>
-    <form method="POST" action="{%url 'login' %}">
-        {% csrf_token %}
-        <h4>아이디</h4>
-        <input name="username" type="text">
+    <div class="text-center container-sm">
+        <div class="login-contents">
+            <h1>로그인</h1>
+            <br>
 
-        <h4>비밀번호</h4>
-        <input name="password" type="password">
-
-        <input type="submit">
-    </form>
+            <form method="POST" action="{%url 'login' %}">
+                {% csrf_token %}
+                <input class="login-input" name="username" type="text" placeholder="아이디">
+                <input class="login-input" name="password" type="password" placeholder="비밀번호">
+                <p>{{error}}</p>
+                <div class="text-end">
+                    <a>아이디/비밀번호 찾기</a>
+                </div>
+                <hr>
+                <input class="btn btn-outline-primary login-btn" type="submit" value="로그인">
+            </form>
+            <a href="{% url 'signup' %}"><button class="btn btn-outline-success login-btn">회원가입</button></a>
+            <br>
+        </div>
+    </div>
 </body>
 
 {% endblock %}
