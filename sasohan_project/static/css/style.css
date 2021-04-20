@@ -157,3 +157,13 @@ footer {
     font-size: 18px;
     font-weight: 600;
 }
+
+.naver-btn {
+    background-color: rgb(30 ,200 ,0);
+}
+
+.naver-btn:hover {
+    background-color: inherit;
+    border: 1px solid rgb(30, 200, 0);
+    color: rgb(30, 200, 0);
+}

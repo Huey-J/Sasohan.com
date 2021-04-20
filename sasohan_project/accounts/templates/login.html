@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block contents %}
 
+{% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
+
+
+<!-- background-image: url("{% static 'images/notebook.jpg' %}"); -->
 <body>
     <div class="text-center container-sm">
         <div class="login-contents">
@@ -18,10 +24,16 @@
                 <hr>
                 <input class="btn btn-outline-primary login-btn" type="submit" value="로그인">
             </form>
-            <a href="{% url 'signup' %}"><button class="btn btn-outline-success login-btn">회원가입</button></a>
+            <a href="{% provider_login_url 'naver' %}">
+                <button class="btn naver-btn login-btn">
+                    <span style="color:white;">N </span>네이버 로그인
+                </button>
+            </a>
             <br>
-            <a href="#">네이버 회원가입</a>
+            <a href="{% url 'signup' %}"><button class="btn btn-outline-danger login-btn">회원가입</button></a>
             <br>
+            <br>
+            
 
             <div class="text-center">
                 <span class="text-muted">Copyright HyunCompany 2020</span>
