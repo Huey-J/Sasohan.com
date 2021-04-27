@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib import auth
 from django.contrib.auth import get_user_model
+import requests
 
 User = get_user_model()
 
@@ -54,4 +55,28 @@ def logout(request):
 	if request.method == 'POST':
 		auth.logout(request)
 		return redirect('home')
+	return render(request, 'login.html')
+
+
+def naverLoginCallback(request):
+	print("naverLogin")
+
+	client_id = "7N21KJ0qyAUU5rTGoP7B"
+	secret_key = "_Fy7wFVgvn"
+
+	auth_url = "https://nid.naver.com/oauth2.0/token"
+	profile_url = "https://openapi.naver.com/v1/nid/me"
+
+	token_res = requests.get(auth_url, params={	'client_id': client_id, 'client_secret': secret_key,
+												'grant_type': 'authorization_code' })
+
+	print(token_res.json())
+
+	# is_success, token_infos = 
+
+	# self.naver_client.get_access_token(state, code)
+
+
+
+
 	return render(request, 'login.html')
