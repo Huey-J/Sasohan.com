@@ -36,11 +36,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.naver',
 
     # Custom Apps
-    'accounts.apps.AccountsConfig',
     'home.apps.HomeConfig',
 ]
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'home.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
