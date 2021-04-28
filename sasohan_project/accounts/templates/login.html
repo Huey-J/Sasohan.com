@@ -5,7 +5,6 @@
 {% load socialaccount %}
 {% providers_media_js %}
 
-<script src="{% static 'js/login.js' %}"></script>
 
 <!-- background-image: url("{% static 'images/notebook.jpg' %}"); -->
 <body>
@@ -25,11 +24,11 @@
                 <hr>
                 <input class="btn btn-outline-primary login-btn" type="submit" value="로그인">
             </form>
-            <!-- <a href="{% provider_login_url 'naver' %}"> -->
-                <button class="btn naver-btn login-btn" onclick=naverLogin()>
+            <a href="{% provider_login_url 'naver' %}">
+                <button class="btn naver-btn login-btn">
                     <span style="color:white;">N </span>네이버 로그인
                 </button>
-            <!-- </a> -->
+            </a>
             <br>
             <a href="{% url 'signup' %}"><button class="btn btn-outline-danger login-btn">회원가입</button></a>
             <br>
