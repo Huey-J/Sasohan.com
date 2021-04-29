@@ -34,10 +34,15 @@
                 </span>
             </div>
             <div class="col text-end" style="padding-top: 10px;">
-                <a class="jua-font" style="font-size: 20px;" href="{% url 'login' %}">로그인</a>
 
-                <!-- 로그인 되어있으면 -->
-                <!-- <p class="text-end jua-font" style="font-size: 20px;" href="{% url 'login' %">내 정보</p> -->
+                {% if user.is_authenticated %}
+                <a class="jua-font" style="font-size: 20px;" href="{% url 'login' %}">{{user.password}}</a>
+                <!-- 드롭다운 추가 -->
+
+                {% else %}
+                <a class="jua-font" style="font-size: 20px;" href="{% url 'login' %}">로그인</a>
+                {% endif %}
+
             </div>
         </div>
     
