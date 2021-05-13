@@ -9,11 +9,10 @@
 
             <form method="POST" action="{%url 'signup' %}">
                 {% csrf_token %}
-                <input class="login-input" name="username" type="text" placeholder="아이디">
+                <input class="login-input" name="username" type="email" placeholder="아이디(이메일)">
                 <input class="login-input" name="password1" type="password" placeholder="비밀번호">
                 <input class="login-input" name="password2" type="password" placeholder="비밀번호 재입력">
                 <input class="login-input" name="phone" type="tel" placeholder="전화번호">
-                <input class="login-input" name="email" type="email" placeholder="이메일">
                 
                 <p>{{error}}</p>
                 <hr>
