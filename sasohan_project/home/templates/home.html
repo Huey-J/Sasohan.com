@@ -33,8 +33,16 @@
                         onkeyup="if(window.event.keyCode==13){GoogleSearch()}" placeholder="검색어 작성후 엔터">
                 </span>
             </div>
-            <div class="col">
-                <p class="text-end jua-font" style="font-size: 20px;">내 정보</p>
+            <div class="col text-end" style="padding-top: 10px;">
+
+                {% if user.is_authenticated %}
+                <a class="jua-font" style="font-size: 20px;" href="{% url 'login' %}">{{user.username}}</a>
+                <!-- 드롭다운 추가 -->
+
+                {% else %}
+                <a class="jua-font" style="font-size: 20px;" href="{% url 'login' %}">로그인</a>
+                {% endif %}
+
             </div>
         </div>
     
@@ -58,7 +66,7 @@
         <!-- Footer -->
         <footer class="py-3">
             <div class="text-center">
-                <span class="text-muted">Copyright HyunCompany 2020</span>
+                <span class="text-muted">Copyright HyunCompany 2021</span>
             </div>
         </footer>
     </div>
