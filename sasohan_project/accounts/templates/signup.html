@@ -9,12 +9,12 @@
 
             <form method="POST" action="{%url 'signup' %}">
                 {% csrf_token %}
-                <input class="login-input" name="username" type="email" placeholder="아이디(이메일)">
-                <input class="login-input" name="password1" type="password" placeholder="비밀번호">
-                <input class="login-input" name="password2" type="password" placeholder="비밀번호 재입력">
-                <input class="login-input" name="phone" type="tel" placeholder="전화번호">
+                <input class="login-input" name="username" type="email" placeholder="아이디 (이메일)" value={{input_username}}>
+                <input class="login-input" name="password1" type="password" maxlength="20" placeholder="비밀번호 (8자 이상 20자 이하의 숫자, 영문 조합)">
+                <input class="login-input" name="password2" type="password" maxlength="20" placeholder="비밀번호 재입력 (특수문자 X)">
+                <input class="login-input" name="phone" type="tel" placeholder="전화번호 (- 없이)" maxlength="11" value={{input_phone}}>
                 
-                <p>{{error}}</p>
+                <p style="color: red; font-weight: bold;">{{error}}</p>
                 <hr>
                 <input class="btn btn-outline-primary login-btn" type="submit" value="가입하기">
             </form>

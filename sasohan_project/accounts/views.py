@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth import get_user_model
+import re	# 정규표현식
 
 User = get_user_model()
 
@@ -24,31 +25,72 @@ def login(request):
 def signup(request):
 	# POST방식으로 요청되면 (회원가입 요청)
 	if request.method == 'POST':
+		input_username, input_password1, input_password2, input_phone = request.POST['username'], request.POST['password1'], request.POST['password2'], request.POST['phone']
+		email_validator = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+
 		# 아이디 또는 비밀번호가 빈칸일 경우
-		if request.POST['username'] == "" or request.POST['password1'] == "":
-			return render(request, 'signup.html', {'error': '아이디와 비밀번호를 입력해주세요.'})
+		if input_username == "" or input_password1 == "":
+			return render(request, 'signup.html', {
+				'input_username': input_username,
+				'input_phone': input_phone,
+				'error': '아이디와 비밀번호를 입력해주세요.'
+			})
 
-		# 전화번호가 빈칸일 경우
-		if request.POST['phone'] == "":
-			return render(request, 'signup.html', {'error': '핸드폰번호를 입력해주세요.'})
+		# 이메일 형식 검사
+		if email_validator.match(input_username) == None:
+			return render(request, 'signup.html', {
+				'input_username': input_username,
+				'input_phone': input_phone,
+				'error': '잘못된 이메일 형식입니다.'
+			})
 
-		# 비밀번호 두개가 다를 경우
-		if request.POST['password1'] != request.POST['password2']:
-			return render(request, 'signup.html', {'error': '비밀번호가 다릅니다.'})
+		# 전화번호가 빈칸, 문자포함, 10자 이하면 에러
+		if input_phone == "" or str(input_phone).isdigit() == False or len(input_phone)<10:
+			return render(request, 'signup.html', {
+				'input_username': input_username,
+				'input_phone': input_phone,
+				'error': '핸드폰번호를 입력해주세요.'
+			})
 		
-		# 회원정보 추가
-		user = User.objects.create_user(
-			username=request.POST['username'],
-			password=request.POST['password1'],
-			phone=request.POST['phone']
-		)
-		# 로그인 처리
-		auth.login(request, user)
-		# blog 페이지로 redirect
-		return redirect('home')
+		# 비밀번호 두개가 다를 경우
+		if input_password1 != input_password2:
+			return render(request, 'signup.html', {
+				'input_username': input_username,
+				'input_phone': input_phone,
+				'error': '비밀번호가 다릅니다.'
+			})
+		
+		# 비밀번호 형식 검사 (8자 이상 20자 이하의 숫자, 영문 조합)
+		if len(input_password1) >= 8 and len(input_password1) <= 20 and re.findall('[0-9]+', input_password1) and re.findall('[a-zA-Z]+', input_password1) and not re.findall('[^0-9a-zA-Z]', input_password1):
+			# 회원정보 추가
+			try:
+				user = User.objects.create_user(
+					username = input_username,
+					password = input_password1,
+					phone = input_phone,
+				)
+				# 로그인 처리
+				auth.login(request, user)
+				# blog 페이지로 redirect
+				return redirect('home')
+			except Exception as e:
+				print(e)
+				return render(request, 'signup.html', {
+					'input_username': input_username,
+					'input_phone': input_phone,
+					'error': '가입된 이메일 입니다: ' + input_username
+				})
+
+		else :
+			return render(request, 'signup.html', {
+				'input_username': input_username,
+				'input_phone': input_phone,
+				'error': '잘못된 비밀번호 형식입니다. (8자 이상 20자 이하의 숫자, 영문 조합)'
+			})
 	else:
 		return render(request, 'signup.html')
 
+# 로그아웃 함수
 def logout(request):
 	if request.method == 'POST':
 		auth.logout(request)
