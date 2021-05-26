@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block contents %}
+
+<body>
+    <div class="text-center container-sm">
+        <div class="login-contents">
+            <h1>사소한닷컴</h1>
+            <br>
+            <h4>이메일 인증이 완료되었습니다.</h4>
+            <h4>마지막으로 사용하실 닉네임을 지정해주세요.</h4>
+            <br>
+
+            <form method="POST" action="{%url 'activate-email' %}">
+                {% csrf_token %}
+                <input class="login-input" name="nickname" type="text" placeholder="닉네임 (3자 이상 15자 이하)" value={{input_nickname}}>
+                
+                <p style="color: red; font-weight: bold;">{{error}}</p>
+                <hr>
+                <input class="btn btn-outline-primary login-btn" type="submit" value="중복검사 및 가입하기">
+            </form>
+
+            <br>
+            <br>
+
+            <div class="text-center">
+                <span class="text-muted">Copyright HyunCompany 2020</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
