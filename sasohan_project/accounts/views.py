@@ -3,6 +3,7 @@ from django.contrib import auth
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage	# 이메일 라이브러리
 from django.conf import settings
+from django.http import Http404		# 404페이지
 import re		# 정규표현식
 import hashlib 	# 해시 암호화
 
@@ -11,18 +12,18 @@ User = get_user_model()
 # 로그인 페이지
 def login(request):
 	if request.method == 'POST':
-		# 회원정보 찾기
-		user = auth.authenticate(
-			request, username = request.POST['username'], password = request.POST['password']
-		)
-
+		user = auth.authenticate(request, username = request.POST['username'], password = request.POST['password'])
 		if user is not None:
-			auth.login(request, user)	# Login
-			return redirect('home')
+			if user.is_cert_email == False:
+				return render(request, 'login.html', {'error': '이메일 인증을 해주세요.'})
+			else:
+				auth.login(request, user)	# Login
+				return redirect('home')
 		else:
 			return render(request, 'login.html', {'error': '아이디 또는 비밀번호가 틀립니다.'})
 	else:
 		return render(request, 'login.html')
+
 
 # 회원가입 페이지
 def signup(request):
@@ -76,47 +77,39 @@ def signup(request):
 				)
 				# 이메일 보내기
 				email_body = """\
-    				<html>
-      					<head></head>
-      					<body>
-        					<table width="580" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
-							<tbody><tr><td height="40"></td></tr><tr><td>
-										<table width="580" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="margin:0 auto;">
-										<tbody><tr><td height="3" width="40" bgcolor="#1ea1f7"></td><td height="3" width="500" bgcolor="#1ea1f7"></td><td height="3" width="40" bgcolor="#1ea1f7"></td></tr><tr><td></td><td>
-													<table width="500" border="0" cellpadding="0" cellspacing="0">
-													<tbody><tr><td height="64"></td></tr><tr><td align="center" height="32">
-															<h1>SASOHAN.COM</h1>
-															</td></tr><tr><td height="24">
-															</td></tr></tbody>
-													</table>
-												</td><td></td></tr><!-- E: HEADER --><!-- S: BODY --><tr><td></td><td>
-								<table width="500" border="0" cellpadding="0" cellspacing="0">
-									<tbody><tr><td height="32" style="font-size:24px;text-align: center">
-										회원가입 이메일 인증 안내
-										</td></tr><tr><td height="40"></td></tr><tr><td height="40" style="line-height: 1.5;font-size: 16px; word-break: keep-all;">
-										<strong style="font-weight: bold">안녕하세요,</strong><br>
-										회원님의 이메일 %s로 사소한닷컴의 계정이 생성되었으며
-										<br>메일 인증을 위해 아래 링크(URL)을 클릭하시면 회원가입이 완료됩니다.
-										</td></tr><tr><td height="40"></td></tr><tr><td height="21" style="font-size: 18px;">
-										인증 링크
-										</td></tr><tr><td height="8"></td></tr><tr><td bgcolor="#f3f5f7" style="padding: 16px;word-break: line-height: 1.43;font-size:14px;">
-										<a href="%s" rel="noreferrer noopener" target="_blank">%s</a>
-										</td></tr>
-									</td></tr></tbody>
-								</table>
-							</td><td></td></tr><!-- E: BODY --></tbody>
-							</table>
-							</td></tr><tr><td height="40"></td></tr></tbody>
-							</table>
-      					</body>
-    				</html>
+    				<html><head></head><body>
+        				<table width="580" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
+						<tbody><tr><td height="40"></td></tr><tr><td>
+							<table width="580" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="margin:0 auto;">
+								<tbody><tr><td height="3" width="40" bgcolor="#1ea1f7"></td><td height="3" width="500" bgcolor="#1ea1f7"></td><td height="3" width="40" bgcolor="#1ea1f7"></td></tr><tr><td></td><td>
+										<table width="500" border="0" cellpadding="0" cellspacing="0">
+											<tbody><tr><td height="64"></td></tr><tr><td align="center" height="32">
+													<h1>SASOHAN.COM</h1>
+													</td></tr><tr><td height="24">
+											</td></tr></tbody>
+										</table></td><td></td></tr><!-- E: HEADER --><!-- S: BODY --><tr><td></td><td>
+										<table width="500" border="0" cellpadding="0" cellspacing="0">
+											<tbody><tr><td height="32" style="font-size:24px;text-align: center">
+												회원가입 이메일 인증 안내
+												</td></tr><tr><td height="40"></td></tr><tr><td height="40" style="line-height: 1.5;font-size: 16px; word-break: keep-all;">
+												<strong style="font-weight: bold">안녕하세요,</strong><br>
+												회원님의 이메일 %s로 사소한닷컴의 계정이 생성되었으며
+												<br>메일 인증을 위해 아래 링크(URL)을 클릭하시면 회원가입이 완료됩니다.
+												</td></tr><tr><td height="40"></td></tr><tr><td height="21" style="font-size: 18px;">
+												인증 링크
+												</td></tr><tr><td height="8"></td></tr><tr><td bgcolor="#f3f5f7" style="padding: 16px;word-break: line-height: 1.43;font-size:14px;">
+												<a href="%s" rel="noreferrer noopener" target="_blank">%s</a>
+												</td></tr>
+											</td></tr></tbody>
+										</table>
+							</td><td></td></tr><!-- E: BODY --></tbody></table>
+						</td></tr><tr><td height="40"></td></tr></tbody></table>
+      				</body></html>
     				""" % (input_username, tmp_link, tmp_link)
 				tmp_email = EmailMessage('[사소한닷컴] 회원가입 이메일 인증 안내', email_body, to=[input_username])
 				tmp_email.content_subtype = "html"
 				tmp_email.send()
-				
-				auth.login(request, user)	# 로그인 처리
-				return redirect('home')		# blog 페이지로 redirect
+				return render(request, 'signup.html', {'alertMessage': '입력하신 이메일로 인증메일을 보냈습니다.'})
 			except Exception as e:
 				print(e)
 				return render(request, 'signup.html', {
@@ -134,34 +127,53 @@ def signup(request):
 	else:
 		return render(request, 'signup.html')
 
+
 # 로그아웃 함수
 def logout(request):
-	# if request.method == 'POST':
-	# 	auth.logout(request)
-	# 	return redirect('home')
-	# return render(request, 'login.html')
 	auth.logout(request)
 	return redirect('home')
+	
 
 # 이메일 인증 페이지
+# username:이메일, token:토큰(닉네임)
 def certEmail(request, username, token):
-	print("이메일: " + username)
-	print("토큰(닉네임): " + token)
-	
-	####### 구현필요 #######
-	# username, nickname 비교해서 맞으면
-	if True:
-		return render(request, 'certEmail.html')
+	try:								# username기준 DB조회
+		tmp_user = User.objects.get(username = username)
+	except User.DoesNotExist:
+		raise Http404("no user")
+
+	if tmp_user.nickname == token:		# nickname = token 비교
+		return render(request, 'certEmail.html', {'token':token})
 	else:
-		return 404	# 오류페이지
-	
+		print("토큰 틀림 " + tmp_user.nickname + " " + token)
+		raise Http404("invalid token")
+
 
 # 이메일 인증
 def activateEmail(request):
 	if request.method == 'POST':
 		input_nickname = request.POST['nickname']
-		print(input_nickname)
+		token = request.POST['token']
+
+		if len(input_nickname) < 3 or 15 < len(input_nickname):
+			return render(request, 'certEmail.html', {
+				'error': '올바른 닉네임은 3자 이상 15자 이하의 조건을 만족해야 합니다.', 'token': token })
+
+		try:
+			tmp_user = User.objects.get(nickname = input_nickname)
+			return render(request, 'certEmail.html', {
+				'error': '이미 사용중인 닉네임입니다.', 'token': token })
+		except User.DoesNotExist:
+			pass
+
+		try:				# token기준 DB조회 및 저장
+			tmp_user = User.objects.get(nickname = token)
+			tmp_user.nickname = input_nickname
+			tmp_user.is_cert_email = True
+			tmp_user.save()
+			return render(request, 'certEmail.html', { 'alertMessage': '성공적으로 저장되었습니다.' })
+		except User.DoesNotExist:
+			raise Http404("no user")
+
 	else:
-		pass
-	####### 구현필요 #######
-	# nickname, is_cert_email 변경
+		raise Http404("invalid token")

@@ -13,7 +13,7 @@
             <form method="POST" action="{%url 'activate-email' %}">
                 {% csrf_token %}
                 <input class="login-input" name="nickname" type="text" placeholder="닉네임 (3자 이상 15자 이하)" value={{input_nickname}}>
-                
+                <input name="token" hidden value={{token}}>
                 <p style="color: red; font-weight: bold;">{{error}}</p>
                 <hr>
                 <input class="btn btn-outline-primary login-btn" type="submit" value="중복검사 및 가입하기">
@@ -26,6 +26,12 @@
                 <span class="text-muted">Copyright HyunCompany 2020</span>
             </div>
         </div>
+        <script>
+            if('{{alertMessage}}' != '') {
+                alert('{{alertMessage}}');
+                location.href="/"
+            }
+        </script>
     </div>
 </body>
 

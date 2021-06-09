@@ -7,4 +7,4 @@ class User(AbstractUser):
     
     is_cert_email = models.BooleanField(default = False)
     phone = models.CharField(max_length = 30, default = "")
-    nickname = models.CharField(max_length = 60, default = "")
+    nickname = models.CharField(max_length = 60, default = "")      # or 회원가입 토큰

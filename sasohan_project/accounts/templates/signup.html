@@ -20,6 +20,12 @@
             </form>
             <a href="{% url 'login' %}"><button class="btn btn-outline-secondary login-btn">뒤로가기</button></a>
         </div>
+        <script>
+            if('{{alertMessage}}' != '') {
+                alert('{{alertMessage}}');
+                location.href="/"
+            }
+        </script>
     </div>
 </body>
 
