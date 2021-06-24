@@ -1,5 +1,7 @@
 # sasohan.com
 
+![image](https://user-images.githubusercontent.com/77145383/123231131-e26f3a80-d512-11eb-9ff6-73a94d69859c.png)
+
 ## Description
 
 메모, 포트폴리오 웹
