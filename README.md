@@ -1,17 +1,17 @@
 # sasohan.com
-python 3.8.2
 
-django 3.1.7
+## Description
 
-Maria DB 10.5
-
-
-# Purpose
-
-메모용 SNS
+메모, 포트폴리오 웹
 
 
-# Set Up
+## Environment
+
+- python 3.8.2
+- django 3.1.7
+- Maria DB 10.5
+
+## Set Up
 
 git bash에서 실행
 ```
