@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required   # 권한 관리 데코레이터
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage	# 이메일 라이브러리
 from django.conf import settings
@@ -7,6 +8,7 @@ from django.http import Http404		# 404페이지
 import re		# 정규표현식
 import hashlib 	# 해시 암호화
 
+URL_LOGIN = '/accounts/login/'
 User = get_user_model()
 
 # 로그인 페이지
@@ -23,6 +25,11 @@ def login(request):
 			return render(request, 'login.html', {'error': '아이디 또는 비밀번호가 틀립니다.'})
 	else:
 		return render(request, 'login.html')
+
+# 내정보 페이지
+@login_required(login_url=URL_LOGIN)
+def profile(request):
+	return render(request, 'profile.html')
 
 
 # 회원가입 페이지

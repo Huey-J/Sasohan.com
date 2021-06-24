@@ -34,15 +34,23 @@
                 </span>
             </div>
             <div class="col text-end" style="padding-top: 10px;">
-
                 {% if user.is_authenticated %}
-                <a class="jua-font" style="font-size: 20px;" href="{% url 'logout' %}">{{user.nickname}}</a>
-                <!-- 드롭다운 추가 -->
-
+                <a class="jua-font" id="dropdown-container" style="font-size: 20px;">
+                    {{user.nickname}}
+                    <ul>
+                        <li onclick="changeUrl(1)">내 정보</li>
+                        <li onclick="changeUrl(2)">로그아웃</li>
+                    </ul>
+                    <script>
+                        function changeUrl(type) {
+                            if (type == 1) location.href=`{% url 'profile' %}`;
+                            else location.href=`{% url 'logout' %}`;
+                        }
+                    </script>
+                </a>
                 {% else %}
                 <a class="jua-font" style="font-size: 20px;" href="{% url 'login' %}">로그인</a>
                 {% endif %}
-
             </div>
         </div>
     

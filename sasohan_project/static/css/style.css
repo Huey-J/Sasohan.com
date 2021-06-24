@@ -95,6 +95,23 @@ footer {
     color: whitesmoke;
 }
 
+#dropdown-container ul {
+    display: none;
+    cursor: pointer;
+}
+#dropdown-container:hover {
+    color: rgb(228,217,199);
+}
+#dropdown-container:hover > ul{
+    display: block;
+}
+#dropdown-container li {
+    padding-top: 1.3vh;
+}
+#dropdown-container li:hover {
+    color: white;
+}
+
 #clock {
     font-size: calc(2rem + 1.5vw);
     margin: 0px;

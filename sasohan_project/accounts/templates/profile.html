@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block contents %}
+
+{% load static %}
+
+<!-- background-image: url("{% static 'images/notebook.jpg' %}"); -->
+<body>
+    <div class="text-center container-sm">
+        <div class="login-contents">
+            <h1>내 정보</h1>
+            <br>
+            <p>comming soon...</p>
+
+            <form method="POST" action="{%url 'login' %}">
+                {% csrf_token %}
+                <input class="login-input" name="username" type="text" placeholder="아이디">
+                <input class="login-input" name="password" type="password" placeholder="비밀번호">
+                <p>{{error}}</p>
+                <div class="text-end">
+                    <a>아이디/비밀번호 찾기</a>
+                </div>
+                <hr>
+                <input class="btn btn-outline-primary login-btn" type="submit" value="변경하기">
+            </form>
+
+            <br>
+            <div class="text-center">
+                <span class="text-muted">Copyright HyunCompany 2020</span>
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+{% endblock %}
